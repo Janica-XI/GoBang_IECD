@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+
+	<!-- ========== 1. Simple Types ========== -->
+
+	<xs:simpleType name="UsernameType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="3" />
+			<xs:maxLength value="8" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PasswordType">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="8" />
+			<xs:maxLength value="16" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="NationalityType">
+		<xs:restriction base="xs:string">
+			<xs:length value="2" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DateType">
+		<xs:restriction base="xs:date" />
+	</xs:simpleType>
+
+	<xs:simpleType name="PhotoDataType">
+		<xs:restriction base="xs:base64Binary" />
+	</xs:simpleType>
+
+	<xs:simpleType name="ThemeType">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+
+	<xs:simpleType name="GameIdType">
+		<xs:restriction base="xs:string" />
+	</xs:simpleType>
+
+	<xs:simpleType name="ColorType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Black" />
+			<xs:enumeration value="White" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="StatusLoginType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Accepted" />
+			<xs:enumeration value="UsernameUnknown" />
+			<xs:enumeration value="WrongPassword" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="StatusRegisterType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Accepted" />
+			<xs:enumeration value="UsernameDuplicated" />
+			<xs:enumeration value="UsernameInvalid" />
+			<xs:enumeration value="PasswordInvalid" />
+			<xs:enumeration value="NationalityInvalid" />
+			<xs:enumeration value="DateInvalid" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ReadyType">
+		<xs:restriction base="xs:boolean" />
+	</xs:simpleType>
+
+	<xs:simpleType name="StatusGeneralType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Accepted" />
+			<xs:enumeration value="Rejected" />
+			<xs:enumeration value="Canceled" />
+			<xs:enumeration value="UsernameUnknown" />
+			<xs:enumeration value="InvalidMove" />
+			<xs:enumeration value="NotYourTurn" />
+			<xs:enumeration value="GameNotFound" />
+			<xs:enumeration value="Timeout" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ErrorCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Timeout" />
+			<xs:enumeration value="OpponentDisconnected" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="UnsignedIntType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DurationType">
+		<xs:restriction base="xs:duration" />
+	</xs:simpleType>
+
+	<!-- ========== 2. Complex Types ========== -->
+
+	<!-- Register request fields -->
+	<xs:complexType name="RegisterRequestType">
+		<xs:sequence>
+			<xs:element name="Username" type="UsernameType" />
+			<xs:element name="Password" type="PasswordType" />
+			<xs:element name="Nationality" type="NationalityType" />
+			<xs:element name="DateOfBirth" type="DateType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Update profile fields request -->
+	<xs:complexType name="UpdateProfileRequestType">
+		<xs:sequence>
+			<xs:element name="Password" type="PasswordType"
+				minOccurs="0" />
+			<xs:element name="Nationality" type="NationalityType"
+				minOccurs="0" />
+			<xs:element name="DateOfBirth" type="DateType"
+				minOccurs="0" />
+			<xs:element name="Theme" type="ThemeType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Photo update request -->
+	<xs:complexType name="UpdatePhotoRequestType">
+		<xs:sequence>
+			<xs:element name="Photo" type="PhotoDataType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Player profile including statistics and optional photo -->
+	<xs:complexType name="PlayerType">
+		<xs:sequence>
+			<xs:element name="Username" type="UsernameType" />
+			<xs:element name="Nationality" type="NationalityType" />
+			<xs:element name="DateOfBirth" type="DateType" />
+			<xs:element name="Photo" type="PhotoDataType"
+				minOccurs="0" />
+			<xs:element name="Victories" type="UnsignedIntType" />
+			<xs:element name="Defeats" type="UnsignedIntType" />
+			<xs:element name="TotalTime" type="DurationType" />
+			<xs:element name="Theme" type="ThemeType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Challenge request -->
+	<xs:complexType name="ChallengeRequestType">
+		<xs:sequence>
+			<xs:element name="Opponent" type="UsernameType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Challenge invitation notification -->
+	<xs:complexType name="ChallengeInvitationType">
+		<xs:sequence>
+			<xs:element name="Challenger" type="PlayerType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Game started notification -->
+	<xs:complexType name="GameStartedType">
+		<xs:sequence>
+			<xs:element name="GameId" type="GameIdType" />
+			<xs:element name="BlackPlayerProfile" type="PlayerType" />
+			<xs:element name="WhitePlayerProfile" type="PlayerType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Move request fields -->
+	<xs:complexType name="MoveRequestType">
+		<xs:sequence>
+			<xs:element name="GameId" type="GameIdType" />
+			<xs:element name="Row" type="UnsignedIntType" />
+			<xs:element name="Col" type="UnsignedIntType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- MoveReply notification -->
+	<xs:complexType name="MoveReplyType">
+		<xs:sequence>
+			<xs:element name="GameId" type="GameIdType" />
+			<xs:element name="Status" type="StatusGeneralType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Game state snapshot -->
+	<xs:complexType name="GameStateType">
+		<xs:sequence>
+			<xs:element name="GameId" type="GameIdType" />
+			<xs:element name="Row" maxOccurs="15">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="index" type="UnsignedIntType"
+								use="required" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="NextPlayer" type="ColorType" />
+			<xs:element name="BlackTimeRemaining" type="DurationType" />
+			<xs:element name="WhiteTimeRemaining" type="DurationType" />
+			<xs:element name="Timestamp" type="xs:dateTime" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- End game notification -->
+	<xs:complexType name="EndGameNotificationType">
+		<xs:sequence>
+			<xs:element name="GameId" type="GameIdType" />
+			<xs:element name="Winner" type="UsernameType" />
+			<xs:element name="TotalTime" type="DurationType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Forfeit request fields -->
+	<xs:complexType name="ForfeitMatchRequestType">
+		<xs:sequence>
+			<xs:element name="GameId" type="GameIdType" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Disconnection Notification -->
+	<xs:complexType name="OpponentDisconnectedType">
+		<xs:sequence>
+			<xs:element name="GameId" type="GameIdType" />
+			<xs:element name="Description" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Error notification -->
+	<xs:complexType name="ErrorNotificationType">
+		<xs:sequence>
+			<xs:element name="Code" type="ErrorCodeType" />
+			<xs:element name="Description" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ========== 3. Root Element ========== -->
+	<xs:element name="Protocolo">
+		<xs:complexType>
+			<xs:choice>
+
+				<!-- Authentication -->
+				<xs:element name="LoginRequest">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Username" type="UsernameType" />
+							<xs:element name="Password" type="PasswordType" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LoginReply">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Status" type="StatusLoginType" />
+							<xs:element name="Profile" type="PlayerType"
+								minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LogoutRequest" />
+				<xs:element name="LogoutReply" type="StatusGeneralType" />
+
+				<!-- Registration -->
+				<xs:element name="RegisterRequest"
+					type="RegisterRequestType" />
+				<xs:element name="RegisterReply"
+					type="StatusRegisterType" />
+
+				<!-- Profile and Photo -->
+				<xs:element name="UpdateProfileRequest"
+					type="UpdateProfileRequestType" />
+				<xs:element name="UpdateProfileReply"
+					type="StatusGeneralType" />
+				<xs:element name="UpdatePhotoRequest"
+					type="UpdatePhotoRequestType" />
+				<xs:element name="UpdatePhotoReply"
+					type="StatusGeneralType" />
+				<xs:element name="ProfileUpdateNotification"
+					type="PlayerType" />
+
+				<!-- Lobby -->
+
+				<!-- Leaderboard request -->
+				<xs:element name="LeaderboardRequest">
+					<xs:complexType>
+						<xs:sequence />
+					</xs:complexType>
+				</xs:element>
+
+				<!-- Leaderboard reply -->
+				<xs:element name="LeaderboardReply">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Player" type="PlayerType"
+								minOccurs="0" maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+
+				<xs:element name="ListPlayersRequest">
+					<xs:complexType>
+						<xs:sequence />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ListPlayersReply">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Player" type="PlayerType"
+								minOccurs="0" maxOccurs="unbounded" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ReadyRequest" type="ReadyType" />
+				<xs:element name="ReadyReply" type="StatusGeneralType" />
+
+				<!-- Challenge -->
+				<xs:element name="ChallengeRequest"
+					type="ChallengeRequestType" />
+				<xs:element name="ChallengeInvitation"
+					type="ChallengeInvitationType" />
+				<xs:element name="ChallengeReply"
+					type="StatusGeneralType" />
+
+				<!-- Game start via notification -->
+				<xs:element name="GameStarted" type="GameStartedType" />
+
+				<!-- Gameplay -->
+				<xs:element name="MoveRequest" type="MoveRequestType" />
+				<xs:element name="MoveReply" type="MoveReplyType" />
+				<xs:element name="GameState" type="GameStateType" />
+				<xs:element name="EndGameNotification"
+					type="EndGameNotificationType" />
+
+				<!-- Forfeit -->
+				<xs:element name="ForfeitMatchRequest"
+					type="ForfeitMatchRequestType" />
+
+				<!-- Disconnect -->
+				<xs:element name="OpponentDisconnected"
+					type="OpponentDisconnectedType" />
+
+				<!-- Error Notification -->
+				<xs:element name="ErrorNotification"
+					type="ErrorNotificationType" />
+
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

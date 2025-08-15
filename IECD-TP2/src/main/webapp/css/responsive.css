@@ -1,0 +1,185 @@
+/* Mobile-specific overrides to keep players inline */
+
+:root {
+    --board-ratio: 2.5;
+}
+
+@media (min-width: 769px) {
+    #gameBoard {
+        width: calc(100vw / var(--board-ratio)) !important;
+        height: auto !important;
+        max-width: 1280px;
+    }
+}
+
+@media (max-width: 1284px) {
+	#gameBoard {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 750px;
+    }
+}
+
+@media (max-width: 768px) {
+	.game-header {
+		padding: 0.75rem;
+		margin-bottom: 1rem;
+	}
+	
+	/* Force the row to stay inline on mobile */
+	.game-header .row {
+		display: flex !important;
+		flex-wrap: nowrap !important;
+		align-items: center;
+		max-width: 100vw;
+	}
+	
+	/* Refers to game board section */
+	#game-board.row, #game-board.row>* {
+		width: 100%;
+	}
+	.game-header .row>* {
+		width: auto;
+	}
+	
+    #gameBoard {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 500px;
+    }
+	/* Override Bootstrap's col-md-4 stacking behavior */
+	.game-header .col-md-4 {
+		flex: 1 1 0% !important;
+		max-width: none !important;
+		padding-left: 0.25rem !important;
+		padding-right: 0.25rem !important;
+	}
+	
+	/* Compact player cards for mobile */
+	.player-card {
+		padding: 0.5rem;
+		margin: 0;
+	}
+	
+	/* Smaller avatars on mobile */
+	.player-avatar {
+		width: 32px;
+		height: 32px;
+		border-radius: 8px;
+	}
+	
+	/* Adjust text sizes for mobile */
+	.player-card strong {
+		font-size: 0.8rem !important;
+	}
+	
+	.piece-description {
+		font-size: 0.7rem !important;
+		display: none; /* Hide description text on very small screens */
+	}
+	
+	/* Compact timer display */
+	.timer-display {
+		font-size: 0.75rem !important;
+		font-family: var(--font-mono);
+		font-weight: 600;
+	}
+	
+	/* Make center column more compact */
+	.game-header .col-md-4:nth-child(2) {
+		flex: 0 0 auto !important;
+		min-width: 120px;
+		text-align: center;
+	}
+	
+	.game-header h6 {
+		font-size: 0.8rem !important;
+		margin-bottom: 0.25rem !important;
+	}
+	
+	.turn-indicator {
+		padding: 0.25rem 0.75rem !important;
+		font-size: 0.75rem !important;
+		border-radius: 20px;
+	}
+	
+	.game-timer {
+		padding: 0.25rem 0.5rem !important;
+		font-size: 0.75rem !important;
+	}
+	
+	/* Hide the "TU" badge on very small screens to save space */
+	.badge-you {
+		display: none;
+	}
+	
+	/* Board adjustments */
+	.board-container {
+		padding: 1rem;
+		margin: 0 0.5rem;
+	}
+	
+}
+
+/* For very small screens (phones in portrait) */
+@media (max-width: 480px) {
+	.game-header {
+		padding: 0.5rem;
+	}
+	
+	.player-card {
+		padding: 0.4rem;
+	}
+	
+	.player-avatar {
+		width: 28px;
+		height: 28px;
+	}
+	
+	.player-card strong {
+		font-size: 0.75rem !important;
+	}
+	
+	.timer-display {
+		font-size: 0.7rem !important;
+	}
+	
+	/* Make center section even more compact */
+	.game-header .col-md-4:nth-child(2) {
+		min-width: 100px;
+	}
+	
+	.game-header h6 {
+		font-size: 0.75rem !important;
+	}
+	
+	.turn-indicator {
+		padding: 0.2rem 0.5rem !important;
+		font-size: 0.7rem !important;
+	}
+	
+	.game-timer {
+		font-size: 0.7rem !important;
+	}
+	
+	/* Hide the piece icons on very small screens */
+	.turn-indicator .fas.fa-circle,
+	.player-card .fas.fa-circle {
+		display: none;
+	}
+}
+
+/* Landscape phone orientation */
+@media (max-width: 768px) and (orientation: landscape) {
+	.game-header {
+		padding: 0.5rem;
+	}
+	
+	.player-card {
+		padding: 0.4rem;
+	}
+	
+	.piece-description {
+		display: block; /* Show description in landscape */
+	}
+}

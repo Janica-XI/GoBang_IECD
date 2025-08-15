@@ -1,0 +1,28 @@
+# Binários compilados
+bin/
+build/
+*/bin/
+*/build/
+
+# Configurações do Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+Servers/
+
+# Ficheiros temporários e do SO
+*.tmp
+*.bak
+*.dat
+*~ 
+Thumbs.db
+.DS_Store
+
+# Logs e dados
+*.log
+players.dat
+
+# Outros IDEs (se for caso disso)
+.idea/
+*.iml
