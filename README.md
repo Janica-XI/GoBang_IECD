@@ -22,6 +22,8 @@ GoBang is a two-player abstract strategy board game. The goal is to be the first
 
 The solution employs a **distributed architecture** where a central **Game Server** manages all user data, game states, and communication, allowing players to connect via two distinct clients: a **Desktop/GUI Client** and a **Web Client** (built with **JSP**).
 
+![Implementation Architecture](IECD-TP2/src/main/webapp/images/readme/2.png)
+
 ### Key Architectural Details
 
 * **Transport Layer Protocols:**
@@ -30,6 +32,12 @@ The solution employs a **distributed architecture** where a central **Game Serve
 * **Data Management:** Player profiles and game history are maintained persistently on the server. Data integrity is ensured using well-defined structures (serialized objects and/or **XML documents with XSD schemas**).
 * **Application Protocol:** A custom application-level protocol was defined to manage all client-server interactions (syntax, semantics, and timing).
 
+#### Component Architecture & Key web classes
+
+![Component Architecture & Key web classes](IECD-TP2/src/main/webapp/images/readme/3.png)
+
+![Sequence Diagram for the "Make a move" scenario](IECD-TP2/src/main/webapp/images/readme/4.png)
+
 ---
 
 ## Core Features and Functionality
@@ -37,17 +45,34 @@ The solution employs a **distributed architecture** where a central **Game Serve
 ### Player Management
 
 * **Self-Registration & Profile Management:** Users can register with full profiles (nickname, password, nationality, age, photo) and update their details.
+
+![Login and Registration Screen](IECD-TP2/src/main/webapp/images/readme/5.jpg)
+
 * **Personalized Skins:** A user can select a **preferred background color/skin** for their profile, which impacts the entire platform's appearance.
+
+![Profile screen](IECD-TP2/src/main/webapp/images/readme/6.jpg)
+
+![Game skins screen](IECD-TP2/src/main/webapp/images/readme/7.jpg)
+
+
 * **Statistics Tracking:** The system persistently tracks **wins, losses, and average time spent per game**.
 
 ### Gameplay and Competition
 
 * **Simultaneous Games:** Players can participate in **multiple games concurrently**.
+
+![Multiple Game screen](IECD-TP2/src/main/webapp/images/readme/9.jpg)
+
 * **Time Control:** A **30-second time limit** is enforced for each move.
 * **Opponent Search:** Players can efficiently find opponents using an **AutoComplete** control based on the full player name.
+
+![Game skins screen](IECD-TP2/src/main/webapp/images/readme/8.png)
+
 * **Honor Board (Leaderboard):** A dynamic leaderboard displays rankings, featuring **photos** and **nationality flags**, sorted by:
     1.  **Victories** (primary sort).
     2.  **Average Time per Game** (tie-breaker: faster time ranks higher).
+
+![Leaderboard screen](IECD-TP2/src/main/webapp/images/readme/10.jpg)
 
 ### Web Platform Enhancements
 
