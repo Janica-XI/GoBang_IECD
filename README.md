@@ -36,6 +36,8 @@ The solution employs a **distributed architecture** where a central **Game Serve
 
 ![Component Architecture & Key web classes](IECD-TP2/src/main/webapp/images/readme/3.png)
 
+#### Sequence Diagram for the "Make a move" scenario
+
 ![Sequence Diagram for the "Make a move" scenario](IECD-TP2/src/main/webapp/images/readme/4.png)
 
 ---
